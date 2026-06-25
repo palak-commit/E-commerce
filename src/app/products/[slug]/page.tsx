@@ -1,14 +1,13 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProductBySlug, products } from "@/data/store";
+import Image from "next/image";
+import { getProductBySlug, getRelatedProducts, products } from "@/data/store";
 import { absUrl, formatPrice } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import {
-  breadcrumbSchema,
-  productSchema,
-  type BreadcrumbItem,
-} from "@/lib/schema-org";
+import { ProductCard } from "@/components/ProductCard";
+import { AddToCartButton } from "@/components/AddToCartButton";
+import { breadcrumbSchema, productSchema, type BreadcrumbItem } from "@/lib/schema-org";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -16,11 +15,7 @@ export function generateStaticParams() {
 
 type Params = Promise<{ slug: string }>;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) return {};
@@ -31,10 +26,38 @@ export async function generateMetadata({
   };
 }
 
+function StarRow({ rating, reviewCount }: { rating: number; reviewCount?: number }) {
+  const full = Math.floor(rating);
+  return (
+    <div style={{ display:"flex", alignItems:"center", gap:"0.5rem" }}>
+      <span style={{ color:"#f59e0b", fontSize:"1.1rem", letterSpacing:"-1px" }}>
+        {"★".repeat(full)}{"☆".repeat(5 - full)}
+      </span>
+      <span style={{ fontWeight:700 }}>{rating.toFixed(1)}</span>
+      {reviewCount && <span style={{ color:"var(--fg-muted)", fontSize:"0.875rem" }}>({reviewCount.toLocaleString("en-IN")} reviews)</span>}
+    </div>
+  );
+}
+
+function TrustBadges() {
+  return (
+    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0.5rem", padding:"1rem", background:"var(--surface)", borderRadius:"var(--radius)", border:"1px solid var(--border)" }}>
+      {[["🚚","Free delivery above ₹499"],["↩","7-day easy returns"],["🔒","100% secure checkout"],["⭐","Genuine product guarantee"]].map(([icon,label])=>(
+        <div key={label} style={{ display:"flex", alignItems:"flex-start", gap:"0.4rem", fontSize:"0.8rem" }}>
+          <span>{icon}</span><span style={{ color:"var(--fg-muted)" }}>{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default async function ProductPage({ params }: { params: Params }) {
   const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) notFound();
+
+  const related = getRelatedProducts(product.id, product.categoryId, 4);
+  const discount = product.mrpInPaise ? Math.round((1 - product.priceInPaise / product.mrpInPaise) * 100) : 0;
 
   const crumbs: BreadcrumbItem[] = [
     { name: "Home", path: "/" },
@@ -43,78 +66,97 @@ export default async function ProductPage({ params }: { params: Params }) {
   ];
 
   return (
-    <div className="space-y-6">
-      <JsonLd
-        data={[
-          breadcrumbSchema(crumbs),
-          productSchema({
-            name: product.name,
-            slug: product.slug,
-            description: product.description,
-            priceInPaise: product.priceInPaise,
-            currency: product.currency,
-            inStock: product.inStock,
-            imageUrl: product.imageUrl,
-            brandName: product.brand?.name,
-            reviews: product.reviews,
-          }),
-        ]}
-      />
+    <div className="animate-fade-up">
+      <JsonLd data={[breadcrumbSchema(crumbs), productSchema({ name:product.name, slug:product.slug, description:product.description, priceInPaise:product.priceInPaise, currency:product.currency, inStock:product.inStock, imageUrl:product.imageUrl, brandName:product.brand?.name, reviews:product.reviews })]} />
       <Breadcrumbs items={crumbs} />
 
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="flex aspect-square items-center justify-center rounded-lg bg-zinc-100 text-zinc-400">
+      <div style={{ display:"grid", gap:"2.5rem", gridTemplateColumns:"1fr", marginTop:"1.5rem" }} className="pdp-grid">
+        {/* Image */}
+        <div style={{ position:"relative", aspectRatio:"1/1", background:"var(--surface-2)", borderRadius:"var(--radius-lg)", overflow:"hidden" }}>
           {product.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={product.imageUrl}
-              alt={product.name}
-              className="h-full w-full rounded-lg object-cover"
-            />
+            <Image src={product.imageUrl} alt={product.name} fill sizes="(max-width:768px) 100vw, 50vw" style={{ objectFit:"cover" }} priority />
           ) : (
-            "No image"
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100%", color:"var(--fg-subtle)" }}>No image</div>
+          )}
+          {discount >= 10 && (
+            <span className="badge badge-red" style={{ position:"absolute", top:"1rem", left:"1rem", fontSize:"0.8rem" }}>{discount}% OFF</span>
           )}
         </div>
 
-        <div className="space-y-4">
-          <h1 className="text-2xl font-bold">{product.name}</h1>
-          {product.brand && (
-            <p className="text-sm text-zinc-500">by {product.brand.name}</p>
+        {/* Details */}
+        <div style={{ display:"flex", flexDirection:"column", gap:"1.25rem" }}>
+          {product.brand && <span style={{ fontSize:"0.875rem", color:"var(--primary)", fontWeight:600 }}>{product.brand.name}</span>}
+          <h1 style={{ fontSize:"1.75rem", fontWeight:800, lineHeight:1.2, letterSpacing:"-0.02em" }}>{product.name}</h1>
+
+          {product.rating && <StarRow rating={product.rating} reviewCount={product.reviewCount} />}
+
+          {/* Price */}
+          <div style={{ display:"flex", alignItems:"baseline", gap:"0.75rem" }}>
+            <span className="price-current">{formatPrice(product.priceInPaise, product.currency)}</span>
+            {product.mrpInPaise && <span className="price-mrp">{formatPrice(product.mrpInPaise, product.currency)}</span>}
+            {discount >= 10 && <span className="price-discount">You save {discount}%</span>}
+          </div>
+
+          {/* Stock */}
+          <div>
+            {product.inStock
+              ? <span className="badge badge-green">✓ In Stock — Ready to ship</span>
+              : <span className="badge badge-red">✕ Out of Stock</span>
+            }
+          </div>
+
+          {/* Description */}
+          <p style={{ color:"var(--fg-muted)", lineHeight:1.7 }}>{product.description}</p>
+
+          {/* Color */}
+          {product.color && (
+            <div style={{ display:"flex", alignItems:"center", gap:"0.5rem" }}>
+              <span style={{ fontWeight:600, fontSize:"0.9rem" }}>Colour:</span>
+              <span className="badge badge-indigo">{product.color}</span>
+            </div>
           )}
-          <p className="text-2xl font-semibold">
-            {formatPrice(product.priceInPaise, product.currency)}
-          </p>
-          <p className="text-zinc-700">{product.description}</p>
-          <p className={product.inStock ? "text-green-600" : "text-red-600"}>
-            {product.inStock ? "In stock" : "Out of stock"}
-          </p>
-          <button
-            disabled={!product.inStock}
-            className="rounded-lg bg-zinc-900 px-6 py-3 text-white disabled:opacity-50"
-          >
-            Add to cart
-          </button>
+
+          {/* Add to Cart with size selector */}
+          <AddToCartButton product={{ id:product.id, slug:product.slug, name:product.name, priceInPaise:product.priceInPaise, currency:product.currency, imageUrl:product.imageUrl, inStock:product.inStock, sizes:product.sizes }} />
+
+          {/* Trust badges */}
+          <TrustBadges />
         </div>
       </div>
 
+      {/* Reviews */}
       {product.reviews.length > 0 && (
-        <section>
-          <h2 className="mb-3 text-xl font-semibold">
-            Reviews ({product.reviews.length})
-          </h2>
-          <ul className="space-y-3">
+        <section style={{ marginTop:"3rem" }}>
+          <h2 style={{ fontSize:"1.25rem", fontWeight:700, marginBottom:"1rem" }}>Customer Reviews ({product.reviews.length})</h2>
+          <div style={{ display:"grid", gap:"0.75rem" }}>
             {product.reviews.map((r) => (
-              <li key={r.id} className="rounded-lg border border-zinc-200 p-3">
-                <div className="text-sm font-medium">
-                  {"★".repeat(r.rating)}
-                  {"☆".repeat(5 - r.rating)} — {r.author}
+              <div key={r.id} style={{ padding:"1rem", background:"var(--surface)", borderRadius:"var(--radius)", border:"1px solid var(--border)" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:"0.75rem", marginBottom:"0.5rem" }}>
+                  <span style={{ color:"#f59e0b" }}>{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</span>
+                  <span style={{ fontWeight:600, fontSize:"0.9rem" }}>{r.author}</span>
                 </div>
-                <p className="text-sm text-zinc-600">{r.body}</p>
-              </li>
+                <p style={{ color:"var(--fg-muted)", fontSize:"0.9rem", lineHeight:1.6 }}>{r.body}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         </section>
       )}
+
+      {/* Related products */}
+      {related.length > 0 && (
+        <section style={{ marginTop:"3rem" }}>
+          <h2 style={{ fontSize:"1.25rem", fontWeight:700, marginBottom:"1rem" }}>You Might Also Like</h2>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:"1rem" }}>
+            {related.map((p) => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </section>
+      )}
+
+      <style>{`
+        @media (min-width: 768px) {
+          .pdp-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }

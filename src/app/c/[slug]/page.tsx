@@ -6,11 +6,7 @@ import { resolveCollection } from "@/lib/collections";
 import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ProductCard } from "@/components/ProductCard";
-import {
-  breadcrumbSchema,
-  itemListSchema,
-  type BreadcrumbItem,
-} from "@/lib/schema-org";
+import { breadcrumbSchema, itemListSchema, type BreadcrumbItem } from "@/lib/schema-org";
 
 export function generateStaticParams() {
   return collections.map((c) => ({ slug: c.slug }));
@@ -18,25 +14,15 @@ export function generateStaticParams() {
 
 type Params = Promise<{ slug: string }>;
 
-// generateMetadata is where the indexability verdict becomes a real signal to
-// Google: a thin/under-stocked collection emits `robots: noindex, follow` so it
-// won't compete in search, while still letting crawlers follow internal links.
-export async function generateMetadata({
-  params,
-}: {
-  params: Params;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const collection = resolveCollection(slug);
   if (!collection) return {};
-
   return {
     title: collection.title,
     description: collection.intro?.slice(0, 160) ?? `${collection.title} at Trendora.`,
     alternates: { canonical: absUrl(`/c/${slug}`) },
-    robots: collection.indexable
-      ? { index: true, follow: true }
-      : { index: false, follow: true },
+    robots: collection.indexable ? { index: true, follow: true } : { index: false, follow: true },
   };
 }
 
@@ -51,45 +37,31 @@ export default async function CollectionPage({ params }: { params: Params }) {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Only advertise ItemList structured data when the page is index-worthy. */}
-      <JsonLd
-        data={
-          collection.indexable
-            ? [breadcrumbSchema(crumbs), itemListSchema(collection.products)]
-            : [breadcrumbSchema(crumbs)]
-        }
-      />
+    <div className="animate-fade-up">
+      <JsonLd data={collection.indexable ? [breadcrumbSchema(crumbs), itemListSchema(collection.products)] : [breadcrumbSchema(crumbs)]} />
       <Breadcrumbs items={crumbs} />
 
-      <header>
-        <h1 className="text-2xl font-bold">{collection.title}</h1>
-        {collection.intro && (
-          <p className="mt-2 max-w-3xl text-zinc-600">{collection.intro}</p>
-        )}
+      <header style={{ marginBottom:"1.5rem", marginTop:"0.75rem" }}>
+        <h1 style={{ fontSize:"1.75rem", fontWeight:800, letterSpacing:"-0.02em" }}>{collection.title}</h1>
+        {collection.intro && <p style={{ marginTop:"0.5rem", maxWidth:"65ch", color:"var(--fg-muted)", lineHeight:1.7 }}>{collection.intro}</p>}
       </header>
 
-      {/* Dev-only banner explaining why a page is held back from indexing. In
-          production this would be hidden behind a NODE_ENV check / admin role. */}
-      {!collection.indexable && (
-        <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800">
-          <strong>noindex</strong> — this collection is not yet eligible for
-          Google indexing:
-          <ul className="ml-4 list-disc">
-            {collection.noindexReasons.map((r) => (
-              <li key={r}>{r}</li>
-            ))}
-          </ul>
+      {/* Dev-only: only show noindex banner in development */}
+      {!collection.indexable && process.env.NODE_ENV === "development" && (
+        <div style={{ padding:"0.75rem 1rem", marginBottom:"1.5rem", borderRadius:"var(--radius)", border:"1px solid #fcd34d", background:"#fffbeb", color:"#92400e", fontSize:"0.8rem" }}>
+          <strong>⚠ Dev only:</strong> noindex — {collection.noindexReasons.join(", ")}
         </div>
       )}
 
+      <p style={{ fontSize:"0.875rem", color:"var(--fg-muted)", marginBottom:"1rem" }}>
+        {collection.products.length} product{collection.products.length !== 1 ? "s" : ""}
+      </p>
+
       {collection.products.length === 0 ? (
-        <p className="text-zinc-500">No matching products right now.</p>
+        <p style={{ color:"var(--fg-muted)", padding:"2rem 0" }}>No matching products right now.</p>
       ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {collection.products.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:"1rem" }}>
+          {collection.products.map((p) => <ProductCard key={p.id} product={p} />)}
         </div>
       )}
     </div>
