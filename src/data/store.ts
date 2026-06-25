@@ -1,4 +1,8 @@
 import { getProductImageUrl } from "@/lib/product-images";
+import basicTeeImg from "@/assets/product-img/Urban-Edge-Basic-Cotton-Tee.webp";
+import kurtiImg from "@/assets/product-img/Cotton Everyday Kurti.jpeg";
+import kurtiImg2 from "@/assets/product-img/Cotton Everyday Kurti2.jpeg";
+import bomberImg from "@/assets/product-img/Urban Edge Bomber Jacket.webp";
 
 export interface Brand { id: string; slug: string; name: string; }
 export interface Category { id: string; slug: string; name: string; description?: string; parentId?: string; }
@@ -193,10 +197,21 @@ const _products: Product[] = [
   },
 ];
 
-export const products: Product[] = _products.map(p => ({
-  ...p,
-  imageUrl: getProductImageUrl(p.name)
-}));
+export const products: Product[] = _products.map(p => {
+  if (p.id === "p_basic_tee") {
+    return { ...p, imageUrl: basicTeeImg.src };
+  }
+  if (p.id === "p_kurti" || p.id === "p_festive_kurti") {
+    return { ...p, imageUrl: kurtiImg.src };
+  }
+  if (p.id === "p_printed_kurti" || p.id === "p_casual_kurti_s") {
+    return { ...p, imageUrl: kurtiImg2.src };
+  }
+  if (p.id === "p_bomber") {
+    return { ...p, imageUrl: bomberImg.src };
+  }
+  return { ...p, imageUrl: getProductImageUrl(p.name) };
+});
 
 export const reviews: Review[] = [
   { id: "r1", productId: "p_puffer", rating: 5, author: "Aarav", body: "Genuinely warm and very light. Great for Delhi winters." },
