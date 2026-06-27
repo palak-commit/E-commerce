@@ -3,6 +3,9 @@ import basicTeeImg from "@/assets/product-img/Urban-Edge-Basic-Cotton-Tee.webp";
 import kurtiImg from "@/assets/product-img/Cotton Everyday Kurti.jpeg";
 import kurtiImg2 from "@/assets/product-img/Cotton Everyday Kurti2.jpeg";
 import bomberImg from "@/assets/product-img/Urban Edge Bomber Jacket.webp";
+import waterproofParkaImg from "@/assets/product-img/water-jakcet.jpg";
+import joggerShortsImg from "@/assets/product-img/Urban Edge Jogger Shorts.webp";
+import fleeceImg from "@/assets/product-img/Nike Sherpa Fleece Jacket.webp";
 
 export interface Brand { id: string; slug: string; name: string; }
 export interface Category { id: string; slug: string; name: string; description?: string; parentId?: string; }
@@ -39,49 +42,49 @@ const _products: Product[] = [
   {
     id: "p_puffer", slug: "urban-edge-puffer-jacket", name: "Urban Edge Puffer Jacket",
     description: "A lightweight, warm puffer with water-resistant shell. Packs down small for travel. Fill power 600, rated to -5°C.",
-    priceInPaise: 99900, mrpInPaise: 149900, currency: "INR", inStock: true, color: "Black",
+    priceInPaise: 24900, mrpInPaise: 29900, currency: "INR", inStock: true, color: "Black",
     imageUrl: U("https://images.unsplash.com/photo-1547624643-3bf761b09502?w=600&q=80&fit=crop&auto=format"), categoryId: "c_winter_jackets", brandId: "b_urban",
     rating: 4.4, reviewCount: 218, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_bomber", slug: "urban-edge-bomber-jacket", name: "Urban Edge Bomber Jacket",
     description: "Classic bomber silhouette in matte black. Ribbed cuffs, full-zip, relaxed everyday wear.",
-    priceInPaise: 79900, mrpInPaise: 119900, currency: "INR", inStock: true, color: "Black",
+    priceInPaise: 18900, mrpInPaise: 23900, currency: "INR", inStock: true, color: "Black",
     imageUrl: U("https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=600&q=80&fit=crop&auto=format"), categoryId: "c_winter_jackets", brandId: "b_urban",
     rating: 4.2, reviewCount: 143, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_windrunner", slug: "nike-windrunner-jacket", name: "Nike Windrunner Jacket",
     description: "Iconic Windrunner with chevron design. Wind-resistant, breathable, packable.",
-    priceInPaise: 89900, mrpInPaise: 129900, currency: "INR", inStock: true, color: "Black",
+    priceInPaise: 21900, mrpInPaise: 26900, currency: "INR", inStock: true, color: "Black",
     imageUrl: U("https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=600&q=80&fit=crop&auto=format"), categoryId: "c_winter_jackets", brandId: "b_nike",
     rating: 4.6, reviewCount: 387, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_parka", slug: "premium-waterproof-parka", name: "Premium Waterproof Parka",
     description: "Fully seam-sealed parka rated for heavy rain. Faux-fur hood, long hem, fleece lining.",
-    priceInPaise: 199900, mrpInPaise: 299900, currency: "INR", inStock: true, color: "Olive",
+    priceInPaise: 29900, mrpInPaise: 34900, currency: "INR", inStock: true, color: "Olive",
     imageUrl: U("https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=600&q=80&fit=crop&auto=format"), categoryId: "c_winter_jackets", brandId: "b_urban",
     rating: 4.7, reviewCount: 92, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_fleece", slug: "nike-sherpa-fleece-jacket", name: "Nike Sherpa Fleece Jacket",
     description: "Cosy sherpa-lined fleece for layering. Stand collar, zip pockets, brushed interior.",
-    priceInPaise: 69900, mrpInPaise: 99900, currency: "INR", inStock: true, color: "Grey",
+    priceInPaise: 17900, mrpInPaise: 22900, currency: "INR", inStock: true, color: "Grey",
     imageUrl: U("https://images.unsplash.com/photo-1617952236317-0bd127407984?w=600&q=80&fit=crop&auto=format"), categoryId: "c_winter_jackets", brandId: "b_nike",
     rating: 4.3, reviewCount: 201, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_denim_jacket", slug: "urban-edge-denim-jacket", name: "Urban Edge Denim Jacket",
     description: "Mid-wash trucker denim jacket. All-season staple with a relaxed fit.",
-    priceInPaise: 84900, mrpInPaise: 129900, currency: "INR", inStock: true, color: "Blue",
+    priceInPaise: 22900, mrpInPaise: 27900, currency: "INR", inStock: true, color: "Blue",
     imageUrl: U("https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=600&q=80&fit=crop&auto=format"), categoryId: "c_men_jackets", brandId: "b_urban",
     rating: 4.1, reviewCount: 176, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_softshell", slug: "nike-softshell-running-jacket", name: "Nike Softshell Running Jacket",
     description: "Stretch softshell with reflective trims for early-morning runs.",
-    priceInPaise: 94900, mrpInPaise: 139900, currency: "INR", inStock: false, color: "Black",
+    priceInPaise: 25900, mrpInPaise: 30900, currency: "INR", inStock: false, color: "Black",
     imageUrl: U("https://images.unsplash.com/photo-1623874514711-0f321325f318?w=600&q=80&fit=crop&auto=format"), categoryId: "c_men_jackets", brandId: "b_nike",
     rating: 4.5, reviewCount: 134, sizes: ["S","M","L","XL","XXL"],
   },
@@ -89,21 +92,21 @@ const _products: Product[] = [
   {
     id: "p_kurti", slug: "cotton-everyday-kurti", name: "Cotton Everyday Kurti",
     description: "Breathable cotton kurti for daily wear. Straight cut, side slits, machine washable. Available in 6 colours.",
-    priceInPaise: 59900, mrpInPaise: 89900, currency: "INR", inStock: true, color: "Blue",
+    priceInPaise: 16900, mrpInPaise: 21900, currency: "INR", inStock: true, color: "Blue",
     imageUrl: U("https://images.unsplash.com/photo-1583391733981-8498408ee4b6?w=600&q=80&fit=crop&auto=format"), categoryId: "c_women_kurti",
     rating: 4.3, reviewCount: 512, sizes: ["XS","S","M","L","XL","XXL"],
   },
   {
     id: "p_festive_kurti", slug: "festive-anarkali-kurti", name: "Festive Anarkali Kurti",
     description: "Flared Anarkali kurti with zari detailing. Perfect for festivals and family functions.",
-    priceInPaise: 129900, mrpInPaise: 199900, currency: "INR", inStock: true, color: "Maroon",
+    priceInPaise: 27900, mrpInPaise: 32900, currency: "INR", inStock: true, color: "Maroon",
     imageUrl: U("https://images.unsplash.com/photo-1594938375523-7bc4b5fc9a1e?w=600&q=80&fit=crop&auto=format"), categoryId: "c_women_kurti",
     rating: 4.6, reviewCount: 284, sizes: ["XS","S","M","L","XL","XXL"],
   },
   {
     id: "p_printed_kurti", slug: "block-print-cotton-kurti", name: "Block Print Cotton Kurti",
     description: "Hand block-printed cotton kurti in earthy tones. Lightweight and airy for summer.",
-    priceInPaise: 74900, mrpInPaise: 109900, currency: "INR", inStock: true, color: "Green",
+    priceInPaise: 19900, mrpInPaise: 24900, currency: "INR", inStock: true, color: "Green",
     imageUrl: U("https://images.unsplash.com/photo-1624939547671-91e5d9e3e27b?w=600&q=80&fit=crop&auto=format"), categoryId: "c_women_kurti",
     rating: 4.4, reviewCount: 198, sizes: ["XS","S","M","L","XL","XXL"],
   },
@@ -111,14 +114,14 @@ const _products: Product[] = [
   {
     id: "p_runner", slug: "nike-air-runner-sneakers", name: "Nike Air Runner Sneakers",
     description: "Cushioned daily running sneakers with breathable mesh upper and rubber outsole.",
-    priceInPaise: 149900, mrpInPaise: 199900, currency: "INR", inStock: true, color: "White",
+    priceInPaise: 28900, mrpInPaise: 33900, currency: "INR", inStock: true, color: "White",
     imageUrl: U("https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80&fit=crop&auto=format"), categoryId: "c_sneakers", brandId: "b_nike",
     rating: 4.7, reviewCount: 623, sizes: ["UK 6","UK 7","UK 8","UK 9","UK 10","UK 11"],
   },
   {
     id: "p_canvas", slug: "urban-edge-canvas-sneakers", name: "Urban Edge Canvas Sneakers",
     description: "Low-top canvas sneakers for casual everyday wear. Vulcanised sole, lace-up.",
-    priceInPaise: 89900, mrpInPaise: 129900, currency: "INR", inStock: true, color: "Black",
+    priceInPaise: 23900, mrpInPaise: 28900, currency: "INR", inStock: true, color: "Black",
     imageUrl: U("https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=600&q=80&fit=crop&auto=format"), categoryId: "c_sneakers", brandId: "b_urban",
     rating: 4.2, reviewCount: 341, sizes: ["UK 6","UK 7","UK 8","UK 9","UK 10","UK 11"],
   },
@@ -126,14 +129,14 @@ const _products: Product[] = [
   {
     id: "p_oxford", slug: "urban-edge-oxford-shirt", name: "Urban Edge Oxford Shirt",
     description: "Slim-fit oxford cotton shirt. Button-down collar, smart-casual staple.",
-    priceInPaise: 64900, mrpInPaise: 99900, currency: "INR", inStock: true, color: "White",
+    priceInPaise: 18900, mrpInPaise: 23900, currency: "INR", inStock: true, color: "White",
     imageUrl: U("https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=80&fit=crop&auto=format"), categoryId: "c_men_shirts", brandId: "b_urban",
     rating: 4.3, reviewCount: 267, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_linen_shirt", slug: "urban-edge-linen-shirt", name: "Urban Edge Linen Shirt",
     description: "Breathable pure-linen shirt for hot days. Relaxed fit, half-placket, beach to brunch.",
-    priceInPaise: 99900, mrpInPaise: 149900, currency: "INR", inStock: true, color: "Beige",
+    priceInPaise: 24900, mrpInPaise: 29900, currency: "INR", inStock: true, color: "Beige",
     imageUrl: U("https://images.unsplash.com/photo-1594938298603-c8148c4b4132?w=600&q=80&fit=crop&auto=format"), categoryId: "c_men_shirts", brandId: "b_urban",
     rating: 4.5, reviewCount: 189, sizes: ["S","M","L","XL","XXL"],
   },
@@ -141,21 +144,21 @@ const _products: Product[] = [
   {
     id: "p_basic_tee", slug: "urban-edge-basic-cotton-tee", name: "Urban Edge Basic Cotton Tee",
     description: "100% combed cotton crew-neck tee. Pre-shrunk, double-stitched seams, everyday essential.",
-    priceInPaise: 19900, mrpInPaise: 39900, currency: "INR", inStock: true, color: "White",
+    priceInPaise: 15900, mrpInPaise: 20900, currency: "INR", inStock: true, color: "White",
     imageUrl: U("https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80&fit=crop&auto=format"), categoryId: "c_basics", brandId: "b_urban",
     rating: 4.4, reviewCount: 1203, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_pocket_tee", slug: "urban-edge-pocket-tee", name: "Urban Edge Pocket Tee",
     description: "Structured jersey pocket tee with a relaxed drop-shoulder fit. Perfect for layering.",
-    priceInPaise: 24900, mrpInPaise: 44900, currency: "INR", inStock: true, color: "Black",
+    priceInPaise: 16900, mrpInPaise: 21900, currency: "INR", inStock: true, color: "Black",
     imageUrl: U("https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?w=600&q=80&fit=crop&auto=format"), categoryId: "c_basics", brandId: "b_urban",
     rating: 4.3, reviewCount: 892, sizes: ["S","M","L","XL","XXL"],
   },
   {
     id: "p_jogger_shorts", slug: "urban-edge-jogger-shorts", name: "Urban Edge Jogger Shorts",
     description: "Lightweight jersey shorts with elasticated waist and drawstring. Gym to street.",
-    priceInPaise: 24900, mrpInPaise: 49900, currency: "INR", inStock: true, color: "Grey",
+    priceInPaise: 17900, mrpInPaise: 22900, currency: "INR", inStock: true, color: "Grey",
     imageUrl: U("https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&q=80&fit=crop&auto=format"), categoryId: "c_basics", brandId: "b_urban",
     rating: 4.2, reviewCount: 567, sizes: ["S","M","L","XL","XXL"],
   },
@@ -163,35 +166,35 @@ const _products: Product[] = [
   {
     id: "p_canvas_wallet", slug: "urban-edge-canvas-wallet", name: "Urban Edge Canvas Wallet",
     description: "Slim bi-fold canvas wallet with RFID-blocking lining. Fits 8 cards + cash.",
-    priceInPaise: 17900, mrpInPaise: 29900, currency: "INR", inStock: true, color: "Olive",
+    priceInPaise: 15900, mrpInPaise: 20900, currency: "INR", inStock: true, color: "Olive",
     imageUrl: U("https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80&fit=crop&auto=format"), categoryId: "c_accessories", brandId: "b_urban",
     rating: 4.1, reviewCount: 432,
   },
   {
     id: "p_tote_bag", slug: "cotton-tote-bag", name: "Cotton Tote Bag",
     description: "12oz canvas tote with internal zip pocket. Folds flat, holds 15kg. Reusable everyday.",
-    priceInPaise: 29900, mrpInPaise: 54900, currency: "INR", inStock: true, color: "Natural",
+    priceInPaise: 18900, mrpInPaise: 23900, currency: "INR", inStock: true, color: "Natural",
     imageUrl: U("https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80&fit=crop&auto=format"), categoryId: "c_accessories",
     rating: 4.5, reviewCount: 718,
   },
   {
     id: "p_ankle_socks", slug: "ankle-socks-3-pack", name: "Ankle Socks — 3 Pack",
     description: "Cushioned cotton-blend ankle socks. Reinforced heel and toe. Fits UK 6–11.",
-    priceInPaise: 19900, mrpInPaise: 34900, currency: "INR", inStock: true, color: "White",
+    priceInPaise: 16900, mrpInPaise: 21900, currency: "INR", inStock: true, color: "White",
     imageUrl: U("https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?w=600&q=80&fit=crop&auto=format"), categoryId: "c_accessories",
     rating: 4.6, reviewCount: 2104,
   },
   {
     id: "p_hair_clips", slug: "hair-clip-set", name: "Hair Clip Set — 6 Pieces",
     description: "Assorted claw clips and bobby pins in a reusable pouch. Strong hold, no snag.",
-    priceInPaise: 15900, mrpInPaise: 24900, currency: "INR", inStock: true, color: "Mixed",
+    priceInPaise: 15900, mrpInPaise: 20900, currency: "INR", inStock: true, color: "Mixed",
     imageUrl: U("https://images.unsplash.com/photo-1519682577862-22b62b24e493?w=600&q=80&fit=crop&auto=format"), categoryId: "c_accessories",
     rating: 4.3, reviewCount: 876,
   },
   {
     id: "p_casual_kurti_s", slug: "casual-short-kurti", name: "Casual Short Kurti",
     description: "Knee-length A-line kurti in soft cotton. Mandarin collar, quarter-button placket.",
-    priceInPaise: 24900, mrpInPaise: 49900, currency: "INR", inStock: true, color: "Pink",
+    priceInPaise: 19900, mrpInPaise: 24900, currency: "INR", inStock: true, color: "Pink",
     imageUrl: U("https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&q=80&fit=crop&auto=format"), categoryId: "c_women_kurti",
     rating: 4.2, reviewCount: 334, sizes: ["XS","S","M","L","XL","XXL"],
   },
@@ -209,6 +212,18 @@ export const products: Product[] = _products.map(p => {
   }
   if (p.id === "p_bomber") {
     return { ...p, imageUrl: bomberImg.src };
+  }
+  if (p.id === "p_parka") {
+    return { ...p, imageUrl: waterproofParkaImg.src };
+  }
+  if (p.id === "p_jogger_shorts") {
+    return { ...p, imageUrl: joggerShortsImg.src };
+  }
+  if (p.id === "p_fleece") {
+    return { ...p, imageUrl: fleeceImg.src };
+  }
+  if (p.id === "p_windrunner") {
+    return { ...p, imageUrl: fleeceImg.src };
   }
   return { ...p, imageUrl: getProductImageUrl(p.name) };
 });
