@@ -1,0 +1,8 @@
+User-Agent: *
+Allow: /
+Disallow: /search
+Disallow: /cart
+Disallow: /api/
+
+Host: https://everestcharityorg.org
+Sitemap: https://everestcharityorg.org/sitemap.xml
