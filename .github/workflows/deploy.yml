@@ -26,14 +26,19 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://everestcharityorg.org
         run: npm run build
 
-      - name: Deploy to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          # Trailing slashes matter: upload the contents of out/ into public_html/
-          local-dir: ./out/
-          server-dir: ./public_html/
-          # Keep files the build doesn't manage (e.g. ads.txt you upload manually)
-          dangerous-clean-slate: false
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to Hostinger via lftp mirror
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+            set ssl:verify-certificate no;
+            set net:max-retries 2;
+            set net:timeout 20;
+            open -u '$FTP_USERNAME','$FTP_PASSWORD' '$FTP_SERVER';
+            mirror -R --delete --ignore-time --parallel=4 --verbose ./out/ /public_html/;
+          "
