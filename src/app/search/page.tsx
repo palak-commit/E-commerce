@@ -1,17 +1,15 @@
+"use client";
+
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { searchProducts } from "@/data/store";
 import { ProductCard } from "@/components/ProductCard";
-import type { Metadata } from "next";
 
-type SearchParams = Promise<{ q?: string }>;
-
-export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
-  const { q } = await searchParams;
-  return { title: q ? `Search: "${q}"` : "Search", robots: { index: false, follow: true } };
-}
-
-export default async function SearchPage({ searchParams }: { searchParams: SearchParams }) {
-  const { q } = await searchParams;
-  const query = q?.trim() ?? "";
+// Static export can't read query strings at build time, so search runs
+// entirely client-side off the static product data.
+function SearchResults() {
+  const params = useSearchParams();
+  const query = (params.get("q") ?? "").trim();
   const results = searchProducts(query);
 
   return (
@@ -43,5 +41,13 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div style={{ padding:"4rem 1rem", textAlign:"center", color:"var(--fg-muted)" }}>Loading…</div>}>
+      <SearchResults />
+    </Suspense>
   );
 }

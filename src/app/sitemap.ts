@@ -3,6 +3,9 @@ import { categories, getInStockProducts } from "@/data/store";
 import { absUrl } from "@/lib/site";
 import { indexableCollectionSlugs } from "@/lib/collections";
 
+// Emit a static sitemap.xml file during `output: export`.
+export const dynamic = "force-static";
+
 // The sitemap is the second half of the indexability guard: it lists ONLY pages
 // we want ranked. Collections that failed the quality bar are excluded here as
 // well as carrying noindex — belt and suspenders, so a thin page is never even
