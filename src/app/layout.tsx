@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import Image from "next/image";
 import "./globals.css";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { JsonLd } from "@/components/JsonLd";
@@ -8,6 +9,7 @@ import { organizationSchema, websiteSchema } from "@/lib/schema-org";
 import { CartProvider } from "@/components/CartProvider";
 import { CartDrawer } from "@/components/CartDrawer";
 import { CartButton } from "@/components/CartButton";
+import logo from "@/assets/favicon.jpg";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
@@ -39,7 +41,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}>
             <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 1rem", height:60, display:"flex", alignItems:"center", gap:"1.5rem" }}>
               {/* Logo */}
-              <Link href="/" style={{ fontWeight:800, fontSize:"1.4rem", color:"var(--primary)", textDecoration:"none", letterSpacing:"-0.03em", flexShrink:0 }}>
+              <Link href="/" style={{ display:"flex", alignItems:"center", gap:"0.5rem", fontWeight:800, fontSize:"1.4rem", color:"var(--primary)", textDecoration:"none", letterSpacing:"-0.03em", flexShrink:0 }}>
+                <Image src={logo} alt="Trendora" width={32} height={32} style={{ borderRadius: "0.5rem", objectFit: "cover" }} />
                 Trendora
               </Link>
 
